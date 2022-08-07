@@ -10,7 +10,7 @@ app.use(cors());
 
 app.get("/comics", (req, res) => {
   axios
-    .get("https://lereacteur-marvel-api.herokuapp.com/comics?" + API_KEY)
+    .get("https://lereacteur-marvel-api.herokuapp.com/comics?apikey=" + API_KEY)
     .then((response) => {
       let validData = response.data;
       res.json({ validData });
@@ -22,7 +22,9 @@ app.get("/comics", (req, res) => {
 
 app.get("/characters", (req, res) => {
   axios
-    .get("https://lereacteur-marvel-api.herokuapp.com/characters?" + API_KEY)
+    .get(
+      "https://lereacteur-marvel-api.herokuapp.com/characters?apikey=" + API_KEY
+    )
     .then((response) => {
       let validData = response.data;
       res.json({ validData });
