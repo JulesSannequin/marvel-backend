@@ -16,7 +16,7 @@ app.get("/comics", (req, res) => {
       res.json({ validData });
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
     });
 });
 
@@ -30,7 +30,7 @@ app.get("/characters", (req, res) => {
       res.json({ validData });
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
     });
 });
 
