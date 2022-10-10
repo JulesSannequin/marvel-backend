@@ -54,7 +54,7 @@ router.post("/user/login", async (req, res) => {
       const newHash = SHA256(req.body.password + userToCheck.salt).toString(
         encBase64
       );
-      console.log("newHash ==>", newhash);
+      console.log("newHash ==>", newHash);
       console.log("Hash présent en bdd ==>", userToCheck.hash);
 
       if (newHash === userToCheck.hash) {
