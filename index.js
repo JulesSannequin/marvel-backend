@@ -2,11 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const mongoose = require("mongoose");
 const API_KEY = process.env.API_KEY;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+
+mongoose.connect("mongodb://localhost/exo-marvel");
+
+const userRoutes = require("./routes/users");
+app.use(userRoutes);
 
 app.get("/comics", (req, res) => {
   axios

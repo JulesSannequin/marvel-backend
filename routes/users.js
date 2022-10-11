@@ -8,37 +8,36 @@ const User = require("../models/User");
 
 router.post("/user/signup", async (req, res) => {
   try {
-    if (req.body.username === undefined) {
-      res.status(400).json({ message: "il te manque des paramètres" });
-    } else {
-      const isEmailAlreadyinDb = await User.findOne({ email: req.body.email });
+    if (username) {
+      const { username, email, password } = req.body;
 
-      if (isEmailAlreadyinDb !== null) {
-        res.json({ message: "ton email a deja un compte" });
-      } else {
+      const user = await User.findOne({ email: email });
+      if (user === null) {
+        const token = uid2(64);
         const salt = uid2(16);
-        const hash = SHA256(req.body.password + salt).toString(encBase64);
-        const token = uid2(32);
-        console.log("salt===>", salt);
-        console.log("hash===>", hash);
+        const hash = SHA256(password + salt).toString(encBase64);
+
         const newUser = new User({
-          email: req.body.email,
+          email: email,
           account: {
-            username: req.body.username,
+            username: username,
           },
           token: token,
-          hash: hash,
           salt: salt,
+          hash: hash,
         });
 
         await newUser.save();
         res.json({
           _id: newUser._id,
-          email: newUser.email,
           token: newUser.token,
           account: newUser.account,
         });
+      } else {
+        res.status(409).json({ error: "Email already have an account" });
       }
+    } else {
+      res.status(400).json({ error: "Username is missing" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -47,24 +46,20 @@ router.post("/user/signup", async (req, res) => {
 
 router.post("/user/login", async (req, res) => {
   try {
-    const userToCheck = await User.FindOne({ email: req.body.email });
-    if (userToCheck === null) {
-      res.status(401).json({ message: "pas autorisé" });
-    } else {
-      const newHash = SHA256(req.body.password + userToCheck.salt).toString(
-        encBase64
-      );
-      console.log("newHash ==>", newHash);
-      console.log("Hash présent en bdd ==>", userToCheck.hash);
-
-      if (newHash === userToCheck.hash) {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      const newHash = SHA256(req.body.password + user.salt).toString(encBase64);
+      if (newHash === user.hash) {
         res.json({
-          _id: userToCheck._id,
-          email: newUser.email,
-          token: newUser.token,
-          account: newUser.account,
+          _id: user._id,
+          token: user.token,
+          account: user.account,
         });
+      } else {
+        res.status(401).json({ error: "Unauthorized" });
       }
+    } else {
+      res.status(401).json({ error: "unauthorized" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
