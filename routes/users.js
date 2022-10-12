@@ -8,9 +8,8 @@ const User = require("../models/User");
 
 router.post("/user/signup", async (req, res) => {
   try {
+    const { username, email, password } = req.body;
     if (username) {
-      const { username, email, password } = req.body;
-
       const user = await User.findOne({ email: email });
       if (user === null) {
         const token = uid2(64);
@@ -59,7 +58,7 @@ router.post("/user/login", async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
       }
     } else {
-      res.status(401).json({ error: "unauthorized" });
+      res.status(401).json({ error: "Unauthorized" });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
