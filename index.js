@@ -52,7 +52,7 @@ app.get("/characters", (req, res) => {
 // });
 
 app.all("*", function (req, res) {
-  res.json({ message: "Page Not Found" });
+  res.json({ message: "Page is Not Found" });
 });
 
 app.listen(process.env.PORT, () => {
