@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
-const User = mongoose.model("User", {
-  email: {
-    unique: true,
-    type: String,
-  },
-  account: {
-    username: String,
-  },
-  token: String,
-  hash: String,
-  salt: String,
-});
+// const User = mongoose.model("User", {
+//   email: {
+//     unique: true,
+//     type: String,
+//   },
+//   account: {
+//     username: String,
+//   },
+//   token: String,
+//   hash: String,
+//   salt: String,
+// });
 
-module.exports = User;
+// module.exports = User;
