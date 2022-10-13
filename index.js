@@ -40,16 +40,16 @@ app.get("/characters", (req, res) => {
     });
 });
 
-// app.get("/characters/:id", async (req, res) => {
-//   try {
-//     const response = await axios.get(
-//       `https://lereacteur-marvel-api.herokuapp.com/character/${req.params.id}?apiKey=${API_KEY}`
-//     );
-//     res.json(response.data);
-//   } catch (error) {
-//     res.json(error.message);
-//   }
-// });
+app.get("/characters/:id", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/character/${req.params.id}?apiKey=${API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.json(error.message);
+  }
+});
 
 app.all("*", function (req, res) {
   res.json({ message: "Page is Not Found" });
